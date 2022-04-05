@@ -8,7 +8,7 @@
 
 #define DASH_ANGLE_STEP 4
 #define JUMP_ANGLE_STEP 4
-#define DASH_HEGIHT 80
+#define DASH_HEGIHT 96
 #define JUMP_HEIGHT 96
 #define FALL_STEP 4
 #define CLIMB_STEP 1
