@@ -11,9 +11,8 @@
 #define DASH_HEGIHT 96
 #define JUMP_HEIGHT 96
 #define FALL_STEP 4
-#define CLIMB_STEP 1
 
-int x = 0;
+int vy = 0;
 
 
 enum PlayerAnims
@@ -55,28 +54,45 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 void Player::update(int deltaTime)
 {
 	sprite->update(deltaTime);
+
+	//Me muvo izquierda
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
 		if(sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
+		if (bDashing) posPlayer.x -= 2;
+		//Colisiono
 		if(map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
 		{
 			posPlayer.x += 2;
+			if(bDashing) posPlayer.x += 2;
 			sprite->changeAnimation(STAND_LEFT);
 		}
 	}
+	//Me muevo derecha
 	else if(Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
+		if (bDashing) posPlayer.x += 2;
+		//Colisiono
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 		{
+			if (bDashing) posPlayer.x -= 2;
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
+	//Dasheo si puedo
+	else if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
+		canDash = false;
+		bDashing = true;
+		dashAngle = 0;
+		startY = posPlayer.y;
+	}
+	//Estoy quieto
 	else
 	{
 		if(sprite->animation() == MOVE_LEFT)
@@ -84,52 +100,61 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() == MOVE_RIGHT)
 			sprite->changeAnimation(STAND_RIGHT);
 	}
+	//Estoy saltando
 	if (bJumping) {
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180)
-		{
+		//Dasheo si puedo
+		if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
+			canDash = false;
+			bDashing = true;
+			dashAngle = 0;
 			bJumping = false;
-			posPlayer.y = startY;
-			if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
-				canDash = false;
-				bDashing = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
-			}
+			startY = posPlayer.y;
 		}
+		//Sigo con el salto
 		else {
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (jumpAngle > 90) {
-				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-			}
-
-			else if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 8), &posPlayer.y)) {
-				jumpAngle = 180 - jumpAngle;
+			jumpAngle += JUMP_ANGLE_STEP;
+			if (jumpAngle == 180)
+			{
 				bJumping = false;
+				posPlayer.y = startY;
 			}
-			if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
-				canDash = false;
-				bDashing = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
+			else {
+				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+				if (jumpAngle > 90) {
+					bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+				}
+
+				else if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 8), &posPlayer.y)) {
+					jumpAngle = 180 - jumpAngle;
+					bJumping = false;
+					if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
+						canDash = false;
+						bDashing = true;
+						dashAngle = 0;
+						bJumping = false;
+						startY = posPlayer.y;
+					}
+				}
 			}
 		}
+		
 	}	
+	//Estoy dasheando
 	if (bDashing) {
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180)
+		dashAngle += DASH_ANGLE_STEP;
+		if (dashAngle == 210)
 		{
 			bDashing = false;
 			posPlayer.y = startY;
 		}
 		else {
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (jumpAngle > 90) {
-				bDashing = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 8), &posPlayer.y);
+			posPlayer.y = int(startY - 96 * sin(3.14159f * dashAngle / 210.f));
+			if (dashAngle > 90) {
+				bDashing = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 			}
 
 			else if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 8), &posPlayer.y)) {
-				jumpAngle = 180 - jumpAngle;
+				dashAngle = 180 - dashAngle;
 				bDashing = false;
 			}
 		}
@@ -137,8 +162,10 @@ void Player::update(int deltaTime)
 	//Estoy cayendo
 	else { 
 		posPlayer.y += FALL_STEP;
+		//vy++;
 		if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) {
 			canDash = true;
+			vy = 0;
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 				bJumping = true;
 				jumpAngle = 0;
@@ -147,9 +174,15 @@ void Player::update(int deltaTime)
 			if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
 				canDash = false;
 				bDashing = true;
-				jumpAngle = 0;
+				dashAngle = 0;
 				startY = posPlayer.y;
 			}
+		}
+		if (Game::instance().getSpecialKey(GLUT_KEY_F1) && canDash) {
+			canDash = false;
+			bDashing = true;
+			dashAngle = 0;
+			startY = posPlayer.y;
 		}
 	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
