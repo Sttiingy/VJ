@@ -9,7 +9,7 @@
 #define SCREEN_Y 32
 
 #define INIT_PLAYER_X_TILES 6
-#define INIT_PLAYER_Y_TILES 11
+#define INIT_PLAYER_Y_TILES 22
 
 
 Scene::Scene()
