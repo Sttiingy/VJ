@@ -8,8 +8,8 @@
 #define SCREEN_X 16
 #define SCREEN_Y 32
 
-#define INIT_PLAYER_X_TILES 6
-#define INIT_PLAYER_Y_TILES 22
+#define INIT_PLAYER_X_TILES 26
+#define INIT_PLAYER_Y_TILES 10
 
 
 Scene::Scene()
