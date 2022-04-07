@@ -90,6 +90,8 @@ void Player::update(int deltaTime)
 		canDash = false;
 		bDashing = true;
 		dashAngle = 0;
+		bJumping = false;
+		jumpAngle = 0;
 		startY = posPlayer.y;
 	}
 	//Estoy quieto
@@ -111,7 +113,7 @@ void Player::update(int deltaTime)
 			jumpAngle = 0;
 			startY = posPlayer.y;
 		}
-		//Sigo con el salto
+		//Sino sigo con el salto
 		else {
 			jumpAngle += JUMP_ANGLE_STEP;
 			if (jumpAngle == 180)
@@ -119,17 +121,15 @@ void Player::update(int deltaTime)
 				bJumping = false;
 				posPlayer.y = startY;
 			}
-			else {
-				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-				if (jumpAngle > 90) {
-					bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-					if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) {
-						bJumping = false;
-					}
-				}
+			if (jumpAngle < 90) {
+				bJumping = !map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y); //Si colisiono nJumping = false
+				if(bJumping) posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			}
+			else if (jumpAngle >= 90) {
+				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+				if (bJumping) posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 			}
 		}
-		
 	}	
 	//Estoy dasheando
 	if (bDashing) {
@@ -139,23 +139,18 @@ void Player::update(int deltaTime)
 			bDashing = false;
 			posPlayer.y = startY;
 		}
-		else {
+		else if (dashAngle < 90) {
+			bDashing = !map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
 			posPlayer.y = int(startY - 96 * sin(3.14159f * dashAngle / 180.f));
-			if (dashAngle > 90) {
-				bDashing = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
-			}
-
-			else if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) {
-				dashAngle = 180 - dashAngle;
-				bDashing = false;
-			}
+		}
+		else if (dashAngle > 90) {
+			bDashing = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+			posPlayer.y = int(startY - 96 * sin(3.14159f * dashAngle / 180.f));
 		}
 	}
 	//Estoy cayendo
 	else { 
-		if(!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))posPlayer.y += FALL_STEP;
-		//if (vy % 4 == 0) posPlayer.y += 4;
-		//vy++;
+		if(!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) posPlayer.y += FALL_STEP;
 		if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y)) {
 			canDash = true;
 			vy = 0;
@@ -168,6 +163,8 @@ void Player::update(int deltaTime)
 				canDash = false;
 				bDashing = true;
 				dashAngle = 0;
+				bJumping = false;
+				jumpAngle = 0;
 				startY = posPlayer.y;
 			}
 		}
@@ -175,6 +172,8 @@ void Player::update(int deltaTime)
 			canDash = false;
 			bDashing = true;
 			dashAngle = 0;
+			bJumping = false;
+			jumpAngle = 0;
 			startY = posPlayer.y;
 		}
 	}
