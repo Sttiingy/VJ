@@ -216,7 +216,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 }
 
 //Colision con la cabeza
-bool TileMap::collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, bool &death) const
+bool TileMap::collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, bool &death, bool &bDashing) const
 {
 	int x0, x1, y;
 	x0 = pos.x / tileSize;
@@ -227,8 +227,12 @@ bool TileMap::collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int
 		if (map[y*mapSize.x + x] != 0) {
 			if (*posY - tileSize * y < 20)
 			{
-				if (map[y*mapSize.x + x] == 2) death = true;
 				//*posY = tileSize * y + size.y;
+				return true;
+				if (map[y*mapSize.x + x] == 2) death = true;
+				else if (map[y*mapSize.x + x] == 3 && bDashing) {
+					map[y*mapSize.x + x] = 0;
+				}
 				return true;
 			}
 		}
