@@ -8,8 +8,8 @@
 #define SCREEN_X 16
 #define SCREEN_Y 32
 
-#define INIT_PLAYER_X_TILES 26
-#define INIT_PLAYER_Y_TILES 10
+#define INIT_PLAYER_X_TILES 0
+#define INIT_PLAYER_Y_TILES 22
 
 
 Scene::Scene()
@@ -39,12 +39,6 @@ void Scene::init()
 	currentTime = 0.0f;
 }
 
-void Scene::update(int deltaTime)
-{
-	currentTime += deltaTime;
-	player->update(deltaTime);
-}
-
 void Scene::render()
 {
 	glm::mat4 modelview;
@@ -57,6 +51,12 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
+}
+
+void Scene::update(int deltaTime)
+{
+	currentTime += deltaTime;
+	player->update(deltaTime);
 }
 
 void Scene::initShaders()
@@ -89,5 +89,12 @@ void Scene::initShaders()
 	fShader.free();
 }
 
+int Scene::getInitialX() {
+	return INIT_PLAYER_X_TILES;
+}
+
+int Scene::getInitialY() {
+	return INIT_PLAYER_X_TILES;
+}
 
 

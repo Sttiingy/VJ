@@ -23,11 +23,9 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	
 private:
-	bool bJumping;
-	bool bDashing;
-	bool canDash;
+	bool bJumping, dashGodMode, bDashing, canDash, death, godMode, bBouncing, bClimbing;
 	glm::ivec2 tileMapDispl, posPlayer;
-	int jumpAngle, startY, dashAngle;
+	int jumpAngle, startY, dashAngle, bounceAngle;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;

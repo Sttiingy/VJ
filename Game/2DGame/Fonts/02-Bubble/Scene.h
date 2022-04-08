@@ -22,9 +22,13 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	int getInitialX();
+	int getInitialY();
 
 private:
 	void initShaders();
+
+	
 
 private:
 	TileMap *map;
