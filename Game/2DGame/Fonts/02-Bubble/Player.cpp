@@ -160,12 +160,6 @@ void Player::update(int deltaTime){
 	if (bBouncing) {
 		bounceAngle += JUMP_ANGLE_STEP;
 		int currentY = posPlayer.y;
-		if (Game::instance().getKey('c') && canDash) {
-			bDashing = true;
-			dashAngle = 0;
-			if (!dashGodMode) canDash = false;
-			bJumping = false;
-		}
 		if (bounceAngle == 180)
 		{
 			bBouncing = false;

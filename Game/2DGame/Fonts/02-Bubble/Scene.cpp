@@ -5,11 +5,11 @@
 #include "Game.h"
 
 
-#define SCREEN_X 16
-#define SCREEN_Y 32
+#define SCREEN_X 36
+#define SCREEN_Y 28
 
-#define INIT_PLAYER_X_TILES 0
-#define INIT_PLAYER_Y_TILES 22
+int INIT_PLAYER_X_TILES = 1;
+int INIT_PLAYER_Y_TILES = 22;
 
 
 Scene::Scene()
@@ -27,10 +27,14 @@ Scene::~Scene()
 }
 
 
-void Scene::init()
+void Scene::init(string lvl)
 {
 	initShaders();
+<<<<<<< HEAD
 	map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+=======
+	map = TileMap::createTileMap("levels/level"+lvl+".txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+>>>>>>> cf757dd9cd1d45c37b559c0828dd30072d267fd2
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -57,6 +61,11 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+}
+
+void Scene::chgpyrpos(int x, int y) {
+	INIT_PLAYER_X_TILES = x;
+	INIT_PLAYER_Y_TILES = y;
 }
 
 void Scene::initShaders()

@@ -19,11 +19,12 @@ public:
 	Scene();
 	~Scene();
 
-	void init();
+	void init(string lvl);
 	void update(int deltaTime);
 	void render();
 	int getInitialX();
 	int getInitialY();
+	void chgpyrpos(int x, int y);
 
 private:
 	void initShaders();
