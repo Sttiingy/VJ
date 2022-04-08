@@ -11,6 +11,8 @@
 int INIT_PLAYER_X_TILES = 1;
 int INIT_PLAYER_Y_TILES = 22;
 
+int currentLvl;
+
 
 Scene::Scene()
 {
@@ -30,11 +32,12 @@ Scene::~Scene()
 void Scene::init(string lvl)
 {
 	initShaders();
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-=======
+//=======
 	map = TileMap::createTileMap("levels/level"+lvl+".txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
->>>>>>> cf757dd9cd1d45c37b559c0828dd30072d267fd2
+	currentLvl = atoi(lvl.c_str());
+//>>>>>>> cf757dd9cd1d45c37b559c0828dd30072d267fd2
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -99,11 +102,15 @@ void Scene::initShaders()
 }
 
 int Scene::getInitialX() {
-	return INIT_PLAYER_X_TILES;
+	return INIT_PLAYER_X_TILES * map->getTileSize();
 }
 
 int Scene::getInitialY() {
-	return INIT_PLAYER_X_TILES;
+	return INIT_PLAYER_Y_TILES * map->getTileSize();
+}
+
+int Scene::getActualLvl() {
+	return currentLvl;
 }
 
 

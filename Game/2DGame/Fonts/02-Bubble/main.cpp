@@ -11,6 +11,7 @@
 
 
 static int prevTime;
+bool slowMO = false;
 
 
 // If a key is pressed this callback is called
@@ -72,8 +73,7 @@ static void idleCallback()
 	if(deltaTime > TIME_PER_FRAME)
 	{
 		// Every time we enter here is equivalent to a game loop execution
-		if(!Game::instance().update(deltaTime))
-			exit(0);
+		if(!Game::instance().update(deltaTime)) exit(0);
 		prevTime = currentTime;
 		glutPostRedisplay();
 	}

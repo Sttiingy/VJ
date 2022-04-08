@@ -67,8 +67,62 @@ void Game::keyPressed(int key)
 		scene.chgpyrpos(3, 22);
 		scene.init("10");
 	}
-
 	keys[key] = true;
+}
+
+int Game::getActualLvl() {
+	return scene.getActualLvl();
+}
+
+void Game::goNextLvl(int actualLvl) {
+	if (actualLvl == 1) {
+		scene.chgpyrpos(1, 22);
+		scene.init("02");
+	}
+	else if (actualLvl == 2) {
+		scene.chgpyrpos(1, 23);
+		scene.init("03");
+	}
+	else if (actualLvl == 3) {
+		scene.chgpyrpos(1, 21);
+		scene.init("04");
+	}
+	else if (actualLvl == 4) {
+		scene.chgpyrpos(1, 19);
+		scene.init("05");
+	}
+	else if (actualLvl == 5) {
+		scene.chgpyrpos(1, 19);
+		scene.init("06");
+	}
+	else if (actualLvl == 6) {
+		scene.chgpyrpos(1, 18);
+		scene.init("07");
+	}
+	else if (actualLvl == 7) {
+		scene.chgpyrpos(1, 22);
+		scene.init("08");
+	}
+	else if (actualLvl == 8) {
+		scene.chgpyrpos(3, 22);
+		scene.init("09");
+	}
+	else if (actualLvl == 9) {
+		scene.chgpyrpos(3, 22);
+		scene.init("10");
+	}
+	else if (actualLvl == 10) {
+		scene.chgpyrpos(3, 22);
+		scene.init("10");
+	}
+}
+
+int Game::getInitialX() {
+	return scene.getInitialX();
+}
+
+int Game::getInitialY() {
+	return scene.getInitialY();
 }
 
 void Game::keyReleased(int key)

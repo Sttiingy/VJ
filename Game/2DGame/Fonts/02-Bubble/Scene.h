@@ -24,6 +24,7 @@ public:
 	void render();
 	int getInitialX();
 	int getInitialY();
+	int getActualLvl();
 	void chgpyrpos(int x, int y);
 
 private:
