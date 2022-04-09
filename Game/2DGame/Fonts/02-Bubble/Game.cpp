@@ -1,16 +1,19 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Game.h"
+#include <stdio.h>
+#include <conio.h>
+#include <../irrKlang/include/irrKlang.h>
+#pragma comment(lib, "../../../libs/irrKlang32/lib/Win32-visualStudio/irrKlang.lib")
 
-#include <iostream>
-#include <Windows.h>
-#include <MMSystem.h>
-#include <windows.h>
+using namespace irrklang;
+
+ISoundEngine* engine = createIrrKlangDevice();
 
 
 void Game::init()
 {
-	PlaySoundA("sounds/SongTheme.wav", NULL, SND_FILENAME | SND_ASYNC);
+	engine->play2D("sounds/SongTheme.mp3", true);
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	scene.init("01");
@@ -33,6 +36,7 @@ void Game::keyPressed(int key)
 {
 	if (key == 27) // Escape code
 		bPlay = false;
+		engine->drop();
 	if (key == 49) {
 		scene.chgpyrpos(1, 22);
 		scene.init("01");

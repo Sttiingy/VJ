@@ -4,21 +4,20 @@
 #include <GL/glut.h>
 #include "Player.h"
 #include "Game.h"
+#include <stdio.h>
+#include <conio.h>
+#include <../irrKlang/include/irrKlang.h>
+#pragma comment(lib, "../../../libs/irrKlang32/lib/Win32-visualStudio/irrKlang.lib")
 
-#include <iostream>
-#include <Windows.h>
-#include <MMSystem.h>
-#include <windows.h>
-
-using namespace std;
-
-
+using namespace irrklang;
 
 #define DASH_ANGLE_STEP 4
 #define JUMP_ANGLE_STEP 4
 #define DASH_HEGIHT 96
 #define JUMP_HEIGHT 96
 #define FALL_STEP 4
+
+//ISoundEngine* engine1 = createIrrKlangDevice();
 
 
 
@@ -231,7 +230,7 @@ void Player::update(int deltaTime){
 			if (bClimbing) {
 				posPlayer.y += 1;
 				if (Game::instance().getKey('x') && !bBouncing) {
-					//PlaySoundA("sounds/JumpFX.wav", NULL, SND_FILENAME | SND_ASYNC);
+					//engine1->play2D("sounds/JumpFX.mp3", true);
 					bClimbing = false;
 					bWallJumping = true;
 					jumpAngle = 0;
@@ -255,7 +254,7 @@ void Player::update(int deltaTime){
 				canDash = true;
 				posPlayer.y -= FALL_STEP;
 				if (Game::instance().getKey('x') && !bBouncing) {
-					//PlaySoundA("sounds/JumpFX.wav", NULL, SND_FILENAME | SND_ASYNC);
+					//engine1->play2D("sounds/JumpFX.mp3", true);
 					bJumping = true;
 					jumpAngle = 0;
 					startY = posPlayer.y;
