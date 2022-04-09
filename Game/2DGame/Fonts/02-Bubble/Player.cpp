@@ -84,8 +84,7 @@ void Player::update(int deltaTime){
 			}
 		}
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && !bWallJumping) {
-			if (sprite->animation() != MOVE_LEFT)
-				sprite->changeAnimation(MOVE_LEFT);
+			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 			posPlayer.x -= 2;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32), death, bDashing)) {
 				posPlayer.x += 2;
@@ -102,10 +101,8 @@ void Player::update(int deltaTime){
 			}
 			else bClimbing = false;
 		}
-		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && !bWallJumping)
-		{
-			if (sprite->animation() != MOVE_RIGHT)
-				sprite->changeAnimation(MOVE_RIGHT);
+		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && !bWallJumping) {
+			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 			posPlayer.x += 2;
 			if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32), death, bDashing)) {
 				posPlayer.x -= 2;
@@ -118,6 +115,7 @@ void Player::update(int deltaTime){
 					wallJumpLeft = false;
 					bounceAngle = 0;
 				}
+				else bClimbing = false;
 			}
 			else bClimbing = false;
 		}
@@ -195,8 +193,8 @@ void Player::update(int deltaTime){
 		}
 		if (bWallJumping) {
 			bounceAngle += JUMP_ANGLE_STEP;
-			if(wallJumpLeft)posPlayer.x += 2;
-			else bounceAngle -= posPlayer.x += 2;
+			if(wallJumpLeft) posPlayer.x += 2;
+			else posPlayer.x -= 2;
 			
 			int currentY = posPlayer.y;
 			if (bounceAngle == 180)
@@ -226,7 +224,6 @@ void Player::update(int deltaTime){
 				posPlayer.y += 1;
 				if (Game::instance().getKey('x') && !bBouncing)
 				{
-					posPlayer.x += JUMP_ANGLE_STEP;
 					bClimbing = false;
 					bWallJumping = true;
 					jumpAngle = 0;
@@ -262,7 +259,16 @@ void Player::update(int deltaTime){
 					startY = posPlayer.y;
 					bJumping = false;
 				}
-				bClimbing = false;
+			}
+			if (!Game::instance().getSpecialKey(GLUT_KEY_LEFT) && bClimbing) {
+				if(!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y, death, bBouncing)) {
+					bClimbing = false;
+				}
+			}
+			if (!Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && bClimbing) {
+				if (!map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y, death, bBouncing)) {
+					bClimbing = false;
+				}
 			}
 		}
 	}
