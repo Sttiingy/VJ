@@ -2,9 +2,15 @@
 #include <GL/glut.h>
 #include "Game.h"
 
+#include <iostream>
+#include <Windows.h>
+#include <MMSystem.h>
+#include <windows.h>
+
 
 void Game::init()
 {
+	PlaySoundA("sounds/SongTheme.wav", NULL, SND_FILENAME | SND_ASYNC);
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	scene.init("01");

@@ -3,6 +3,7 @@
 
 
 #include "Sprite.h"
+#include "../../libs/irrKlang/include/irrKlang.h"
 #include "TileMap.h"
 
 
@@ -29,7 +30,6 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-
 };
 
 

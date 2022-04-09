@@ -5,6 +5,14 @@
 #include "Player.h"
 #include "Game.h"
 
+#include <iostream>
+#include <Windows.h>
+#include <MMSystem.h>
+#include <windows.h>
+
+using namespace std;
+
+
 
 #define DASH_ANGLE_STEP 4
 #define JUMP_ANGLE_STEP 4
@@ -222,8 +230,8 @@ void Player::update(int deltaTime){
 		else {//Estoy cayendo
 			if (bClimbing) {
 				posPlayer.y += 1;
-				if (Game::instance().getKey('x') && !bBouncing)
-				{
+				if (Game::instance().getKey('x') && !bBouncing) {
+					//PlaySoundA("sounds/JumpFX.wav", NULL, SND_FILENAME | SND_ASYNC);
 					bClimbing = false;
 					bWallJumping = true;
 					jumpAngle = 0;
@@ -246,8 +254,8 @@ void Player::update(int deltaTime){
 				}
 				canDash = true;
 				posPlayer.y -= FALL_STEP;
-				if (Game::instance().getKey('x') && !bBouncing)
-				{
+				if (Game::instance().getKey('x') && !bBouncing) {
+					//PlaySoundA("sounds/JumpFX.wav", NULL, SND_FILENAME | SND_ASYNC);
 					bJumping = true;
 					jumpAngle = 0;
 					startY = posPlayer.y;
