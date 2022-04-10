@@ -69,6 +69,7 @@ void Player::update(int deltaTime){
 			death = false;
 			posPlayer.x = Game::instance().getInitialX();
 			posPlayer.y = Game::instance().getInitialY();
+			Sound::instance().back2LifeEffect();
 		}
 		if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 			if (bDashing) {
@@ -230,6 +231,7 @@ void Player::update(int deltaTime){
 			}
 			if (!bDashing && !bClimbing) posPlayer.y += FALL_STEP;
 			if (Game::instance().getKey('c') && canDash) {
+				Sound::instance().dashEffect();
 				bDashing = true;
 				dashAngle = 0;
 				if (!dashGodMode) canDash = false;
@@ -251,6 +253,7 @@ void Player::update(int deltaTime){
 					startY = posPlayer.y;
 				}
 				if (Game::instance().getKey('c') && canDash) {
+					Sound::instance().dashEffect();
 					bDashing = true;
 					dashAngle = 0;
 					canDash = false;

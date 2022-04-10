@@ -45,6 +45,23 @@ void Sound::jumpEffect()
 	effect->setVolume(0.15f);
 }
 
+void Sound::dashEffect()
+{
+	effect = engineEffects->play2D("sounds/DashFX.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+
+void Sound::back2LifeEffect()
+{
+	effect = engineEffects->play2D("sounds/Back2Life.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+
+void Sound::BoingEffect() {
+	effect = engineEffects->play2D("sounds/Boing.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+
 void Sound::init() {
 	engineMusic = createIrrKlangDevice();
 	engineEffects = createIrrKlangDevice();

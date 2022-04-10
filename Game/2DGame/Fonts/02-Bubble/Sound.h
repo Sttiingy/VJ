@@ -14,6 +14,9 @@ public:
 	void playMusic(char *url);
 	void stopMusic();
 	void jumpEffect();
+	void dashEffect();
+	void back2LifeEffect();
+	void BoingEffect();
 	void stopEffect();
 private:
 

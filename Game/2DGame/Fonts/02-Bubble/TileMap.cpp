@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
+#include "Sound.h"
 
 
 using namespace std;
@@ -205,6 +206,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 				if (map[y*mapSize.x + x] == 2) death = true;
 				else if (map[y*mapSize.x + x] == 4) {
 					bBouncing = true;
+					Sound::instance().BoingEffect();
 				}
 				//*posY = tileSize * y - size.y;
 				return true;
