@@ -28,12 +28,10 @@ public:
 	
 	int getTileSize() const { return tileSize; }
 
-	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size, bool &death, bool &bDashing) const;
-	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size, bool &death, bool &bDashing) const;
-	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, bool &death, bool &bBouncing) const;
-	bool collisionMoveUp(const glm::ivec2 & pos, const glm::ivec2 & size, int * posY, bool & death, bool & bDashing , bool & win) const;
-	//int isCollision(const glm::ivec2 & pos) const;
-	bool collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, bool &death, bool &bDashing) const;
+	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size, bool &death, bool &godMode) const;
+	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size, bool &death, bool &godMode) const;
+	bool collisionMoveDown(const glm::ivec2 & pos, const glm::ivec2 & size, int * posY, bool & death, bool & bBouncing, bool & godMode) const;
+	bool collisionMoveUp(const glm::ivec2 & pos, const glm::ivec2 & size, int * posY, bool & death, bool & godMode , bool & win) const;
 	
 private:
 	bool loadLevel(const string &levelFile);
