@@ -8,7 +8,7 @@ void Game::init()
 {
 	Sound::instance().playMusic("sounds/SongTheme.wav");
 	bPlay = true;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	scene.init("01");
 }
 
@@ -29,7 +29,7 @@ void Game::keyPressed(int key)
 	if (key == 27) // Escape code
 		bPlay = false;
 	if (key == 49) {
-		scene.chgpyrpos(1, 22);
+		scene.chgpyrpos(1, 20);
 		scene.init("01");
 	}
 	if (key == 50) {
@@ -37,11 +37,11 @@ void Game::keyPressed(int key)
 		scene.init("02");
 	}
 	if (key == 51) {
-		scene.chgpyrpos(1, 23);
+		scene.chgpyrpos(1, 21);
 		scene.init("03");
 	}
 	if (key == 52) {
-		scene.chgpyrpos(1, 21);
+		scene.chgpyrpos(3, 18);
 		scene.init("04");
 	}
 	if (key == 53) {
@@ -81,11 +81,11 @@ void Game::goNextLvl(int actualLvl) {
 		scene.init("02");
 	}
 	else if (actualLvl == 2) {
-		scene.chgpyrpos(1, 23);
+		scene.chgpyrpos(1, 21);
 		scene.init("03");
 	}
 	else if (actualLvl == 3) {
-		scene.chgpyrpos(1, 21);
+		scene.chgpyrpos(3, 19);
 		scene.init("04");
 	}
 	else if (actualLvl == 4) {

@@ -11,7 +11,7 @@
 #define SCREEN_Y 28
 
 int INIT_PLAYER_X_TILES = 1;
-int INIT_PLAYER_Y_TILES = 22;
+int INIT_PLAYER_Y_TILES = 20;
 
 int currentLvl;
 
