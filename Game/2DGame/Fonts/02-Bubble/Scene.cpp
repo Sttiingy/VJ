@@ -35,7 +35,7 @@ void Scene::init(string lvl)
 {
 	initShaders();
 //<<<<<<< HEAD
-	map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	//map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 //=======
 	map = TileMap::createTileMap("levels/level"+lvl+".txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	currentLvl = atoi(lvl.c_str());
