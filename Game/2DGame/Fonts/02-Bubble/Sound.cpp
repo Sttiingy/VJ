@@ -62,6 +62,11 @@ void Sound::BoingEffect() {
 	effect->setVolume(0.15f);
 }
 
+void Sound::DeathEffect() {
+	effect = engineEffects->play2D("sounds/DeathFX.wav", false, false, true);
+	effect->setVolume(0.35f);
+}
+
 void Sound::init() {
 	engineMusic = createIrrKlangDevice();
 	engineEffects = createIrrKlangDevice();

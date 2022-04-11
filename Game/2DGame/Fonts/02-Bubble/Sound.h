@@ -17,6 +17,7 @@ public:
 	void dashEffect();
 	void back2LifeEffect();
 	void BoingEffect();
+	void DeathEffect();
 	void stopEffect();
 private:
 
