@@ -10,7 +10,7 @@
 #define SCREEN_X 36
 #define SCREEN_Y 28
 
-int INIT_PLAYER_X_TILES = 1;
+int INIT_PLAYER_X_TILES = 2;
 int INIT_PLAYER_Y_TILES = 20;
 
 int INIT_FRUIT_X_TILES = 31;
@@ -28,7 +28,7 @@ Scene::Scene()
 	map = NULL;
 	player = NULL;
 	fruit = NULL;
-	walk = NULL;
+	//walk = NULL;
 }
 
 Scene::~Scene()
@@ -45,12 +45,8 @@ Scene::~Scene()
 void Scene::init(string lvl)
 {
 	initShaders();
-//<<<<<<< HEAD
-	//map = TileMap::createTileMap("levels/level04.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-//=======
 	map = TileMap::createTileMap("levels/level"+lvl+".txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	currentLvl = atoi(lvl.c_str());
-//>>>>>>> cf757dd9cd1d45c37b559c0828dd30072d267fd2
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -63,10 +59,10 @@ void Scene::init(string lvl)
 	fruit->setPosition(glm::vec2(INIT_FRUIT_X_TILES * map->getTileSize(), INIT_FRUIT_Y_TILES * map->getTileSize()));
 	fruit->setTileMap(map);
 
-	walk = new Walk();
-	walk->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	walk->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	walk->setTileMap(map);
+	//walk = new Walk();
+	//walk->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	//walk->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	//walk->setTileMap(map);
 
 }
 
@@ -82,7 +78,7 @@ void Scene::render()
 	map->render();
 	player->render();
 	fruit->render();
-	walk->render();
+	//walk->render();
 }
 
 void Scene::update(int deltaTime)
@@ -90,7 +86,7 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	player->update(deltaTime);
 	fruit->update(deltaTime, player);
-	walk->update(deltaTime, player);
+	//walk->update(deltaTime, player);
 
 }
 
@@ -149,6 +145,15 @@ int Scene::getInitialY() {
 
 int Scene::getActualLvl() {
 	return currentLvl;
+}
+
+void Scene::changeGodModeState() {
+	player->changeGodMode();
+}
+
+
+void Scene::changeDashGodModeState() {
+	player->changeDashGodMode();
 }
 
 

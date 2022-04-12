@@ -22,6 +22,8 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	int getPlayerX();
 	int getPlayerY();
+	void changeGodMode();
+	void changeDashGodMode();
 	
 private:
 	bool bJumping, dashGodMode, bDashing, canDash, death, godMode, bBouncing, bClimbing, win, wallJumpLeft;

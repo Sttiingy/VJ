@@ -7,7 +7,7 @@
 #include "TileMap.h"
 #include "Player.h"
 #include "Fruit.h"
-#include "Walk.h"
+//#include "Walk.h"
 
 
 // Scene contains all the entities of our game.
@@ -27,6 +27,8 @@ public:
 	int getInitialX();
 	int getInitialY();
 	int getActualLvl();
+	void changeGodModeState();
+	void changeDashGodModeState();
 	void chgpyrpos(int x, int y);
 	void setFruitPos(int x, int y);
 	void setWalkPos(int x, int y);
@@ -40,7 +42,7 @@ private:
 	TileMap *map;
 	Player *player;
 	Fruit *fruit;
-	Walk *walk;
+	//Walk *walk;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

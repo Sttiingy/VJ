@@ -19,6 +19,7 @@ public:
 	void BoingEffect();
 	void DeathEffect();
 	void stopEffect();
+	void WinEffect();
 private:
 
 	void init();

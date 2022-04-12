@@ -76,3 +76,8 @@ void Sound::stopEffect() {
 	engineEffects->stopAllSounds();
 }
 
+void Sound::WinEffect() {
+	effect = engineEffects->play2D("sounds/Win.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+

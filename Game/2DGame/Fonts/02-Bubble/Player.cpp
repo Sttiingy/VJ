@@ -17,7 +17,7 @@ int counter = 0;
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, DEATH_LEFT, DEATH_RIGHT, LOOK_UP, WIN, JUMP_LEFT, JUMP_RIGHT, JUMP_UP
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, DEATH_LEFT, DEATH_RIGHT, LOOK_UP, WIN, JUMP_LEFT, JUMP_RIGHT, JUMP_UP, CLIMB_LEFT, CLIMB_RIGHT
 };
 
 
@@ -33,7 +33,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	wallJumpLeft = false;
 	spritesheet.loadFromFile("images/Texture.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(22, 32), glm::vec2(0.2f, 0.1f), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(11);
+	sprite->setNumberAnimations(13);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 8);
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.4f, 0.6f));
@@ -90,6 +90,16 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 
 		sprite->setAnimationSpeed(JUMP_UP, 8);
 		sprite->addKeyframe(JUMP_UP, glm::vec2(0.6f, 0.4f));	
+
+		sprite->setAnimationSpeed(CLIMB_LEFT, 8);
+		sprite->addKeyframe(CLIMB_LEFT, glm::vec2(0.2f, 0.7f));
+
+		sprite->setAnimationSpeed(CLIMB_RIGHT, 8);
+		sprite->addKeyframe(CLIMB_RIGHT, glm::vec2(0.f, 0.7f));
+
+
+
+
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));	
 }
@@ -97,7 +107,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 void Player::update(int deltaTime){
 	sprite->update(deltaTime);
 	if (win) {
-		if (counter == 0) Sound::instance().back2LifeEffect();
+		if (counter == 0) Sound::instance().WinEffect();
 		if (sprite->animation() != WIN) sprite->changeAnimation(WIN);
 		counter++;
 		if (counter == 32) {
@@ -106,13 +116,10 @@ void Player::update(int deltaTime){
 			posPlayer.x = Game::instance().getInitialX();
 			posPlayer.y = Game::instance().getInitialY();
 			sprite->changeAnimation(STAND_RIGHT);
-			Sound::instance().back2LifeEffect();
 			counter = 0;
 		}
 	}
 	else {
-		//if (Game::instance().getKey('g')) godMode = !godMode;
-		//if (Game::instance().getKey('d')) dashGodMode = !dashGodMode;
 		if (godMode) death = false;
 		if (death) {
 			bDashing = false;
@@ -272,7 +279,7 @@ void Player::update(int deltaTime){
 						bDashing = false;
 					}
 				}
-				else if (sprite->animation() == MOVE_LEFT || sprite->animation() == STAND_LEFT) {
+				else if (sprite->animation() == MOVE_LEFT || sprite->animation() == STAND_LEFT || sprite->animation() == JUMP_LEFT) {
 					posPlayer.x -= DASH_ANGLE_STEP;
 					dashAngle += DASH_ANGLE_STEP;
 					if (map->collisionMoveLeft(posPlayer, glm::ivec2(22, 32), death, godMode)) {
@@ -283,7 +290,7 @@ void Player::update(int deltaTime){
 						bDashing = false;
 					}
 				}
-				else if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) {
+				else if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT || sprite->animation() == JUMP_RIGHT) {
 					posPlayer.x += DASH_ANGLE_STEP;
 					dashAngle += DASH_ANGLE_STEP;
 					if (map->collisionMoveRight(posPlayer, glm::ivec2(22, 32), death, godMode)) {
@@ -313,19 +320,19 @@ void Player::update(int deltaTime){
 					}
 					else if (map->collisionMoveUp(posPlayer, glm::ivec2(22, 32), &posPlayer.y, death, godMode, win)) {
 						posPlayer.y = currentY;
-						bWallJumping = false;
+						bBouncing = false;
 					}
 				}
 			}
 			else {//Estoy cayendo
 				if (bClimbing && !bBouncing) {
 					posPlayer.y += 1;
-					if (sprite->animation() != STAND_RIGHT && wallJumpLeft) {
-						sprite->changeAnimation(STAND_RIGHT);
+					if (sprite->animation() != CLIMB_RIGHT && wallJumpLeft) {
+						sprite->changeAnimation(CLIMB_RIGHT);
 						//sprite climb
 					}
-					if (sprite->animation() != STAND_LEFT && !wallJumpLeft) {
-						sprite->changeAnimation(STAND_LEFT);
+					if (sprite->animation() != CLIMB_LEFT && !wallJumpLeft) {
+						sprite->changeAnimation(CLIMB_LEFT);
 						//sprite climb
 					}
 					if (map->collisionMoveDown(posPlayer, glm::ivec2(22, 32), &posPlayer.y, death, bBouncing, godMode)) posPlayer.y -= 1;
@@ -342,7 +349,7 @@ void Player::update(int deltaTime){
 					Sound::instance().dashEffect();
 					bDashing = true;
 					dashAngle = 0;
-					canDash = false;
+					if(!dashGodMode) canDash = false;
 					bJumping = false;
 				}
 				if (map->collisionMoveDown(posPlayer, glm::ivec2(22, 32), &posPlayer.y, death, bBouncing, godMode)) {
@@ -363,7 +370,7 @@ void Player::update(int deltaTime){
 						Sound::instance().dashEffect();
 						bDashing = true;
 						dashAngle = 0;
-						canDash = false;
+						if(!dashGodMode) canDash = false;
 						startY = posPlayer.y;
 						bJumping = false;
 					}
@@ -400,9 +407,17 @@ void Player::setPosition(const glm::vec2 &pos)
 }
 
 int Player::getPlayerX() {
-	return (posPlayer.x)  / 16;
+	return (posPlayer.x + 16)  / 16;
 }
 
 int Player::getPlayerY() {
 	return (posPlayer.y) / 16;
+}
+
+void Player::changeGodMode() {
+	godMode = !godMode;
+}
+
+void Player::changeDashGodMode() {
+	dashGodMode = !dashGodMode;
 }

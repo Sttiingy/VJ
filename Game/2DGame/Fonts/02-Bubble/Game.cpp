@@ -6,7 +6,7 @@
 
 void Game::init()
 {
-	//Sound::instance().playMusic("sounds/SongTheme.wav");
+	Sound::instance().playMusic("sounds/SongTheme.wav");
 	bPlay = true;
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	scene.init("01");
@@ -28,50 +28,57 @@ void Game::keyPressed(int key)
 {
 	if (key == 27) // Escape code
 		bPlay = false;
-	if (key == 49) {
-		scene.chgpyrpos(1, 20);
-		scene.setFruitPos(31, 14);
-		scene.setWalkPos(10, 10);
-		scene.init("01");
+	if (key == 49) {//lvl 1
+		scene.chgpyrpos(2, 20);
+		//scene.setFruitPos(31, 14);
+		scene.init("12");
 	}
-	if (key == 50) {
-		scene.chgpyrpos(1, 22);
+	if (key == 50) {//lvl 2
+		scene.chgpyrpos(2, 22);
 		scene.setFruitPos(3, 9);
 		scene.init("02");
 	}
-	if (key == 51) {
-		scene.chgpyrpos(1, 21);
+	if (key == 51) {//lvl 3
+		scene.chgpyrpos(2, 21);
+		scene.setFruitPos(12, 9);
 		scene.init("03");
 	}
-	if (key == 52) {
+	if (key == 52) {//lvl 4
 		scene.chgpyrpos(3, 18);
+		scene.setFruitPos(6, 5);
 		scene.init("04");
 	}
-	if (key == 53) {
-		scene.chgpyrpos(1, 19);
+	if (key == 53) {//lvl 5
+		scene.chgpyrpos(2, 19);
+		scene.setFruitPos(31, 10);
 		scene.init("05");
 	}
-	if (key == 54) {
-		scene.chgpyrpos(1, 19);
+	if (key == 54) {//lvl 6
+		scene.chgpyrpos(2, 19);
+		scene.setFruitPos(31, 10);
 		scene.init("06");
 	}
-	if (key == 55) {
-		scene.chgpyrpos(1, 18);
+	if (key == 55) {//lvl 7
+		scene.chgpyrpos(2, 18);
+		scene.setFruitPos(14, 10);
 		scene.init("07");
 	}
-	if (key == 56) {
+	if (key == 56) {//lvl 8
 		scene.chgpyrpos(3, 22);
+		scene.setFruitPos(4, 3);
 		scene.init("08");
 	}
-	if (key == 57) {
+	if (key == 57) {//lvl 9
 		scene.chgpyrpos(3, 22);
 		scene.init("09");
 	}
-	if (key == 48) {
+	if (key == 48) {//lvl 10
 		scene.chgpyrpos(3, 22);
 		scene.init("10");
 	}
 	keys[key] = true;
+	if (Game::instance().getKey('g')) scene.changeGodModeState();
+	if (Game::instance().getKey('d')) scene.changeDashGodModeState();
 }
 
 int Game::getActualLvl() {
@@ -79,33 +86,44 @@ int Game::getActualLvl() {
 }
 
 void Game::goNextLvl(int actualLvl) {
-	if (actualLvl == 1) {
-		scene.chgpyrpos(1, 22);
+	if (actualLvl == 0) {
+		scene.chgpyrpos(2, 20);
+		scene.setFruitPos(31, 14);
+		scene.init("12");
+	}
+	else if (actualLvl == 1) {
+		scene.chgpyrpos(2, 22);
 		scene.setFruitPos(3, 9);
 		scene.init("02");
 	}
 	else if (actualLvl == 2) {
-		scene.chgpyrpos(1, 21);
+		scene.chgpyrpos(2, 21);
+		scene.setFruitPos(12, 9);
 		scene.init("03");
 	}
 	else if (actualLvl == 3) {
-		scene.chgpyrpos(3, 19);
+		scene.chgpyrpos(3, 18);
+		scene.setFruitPos(6, 5);
 		scene.init("04");
 	}
 	else if (actualLvl == 4) {
-		scene.chgpyrpos(1, 19);
+		scene.chgpyrpos(2, 19);
+		scene.setFruitPos(31, 10);
 		scene.init("05");
 	}
 	else if (actualLvl == 5) {
-		scene.chgpyrpos(1, 19);
+		scene.chgpyrpos(2, 19);
+		scene.setFruitPos(31, 10);
 		scene.init("06");
 	}
 	else if (actualLvl == 6) {
-		scene.chgpyrpos(1, 18);
+		scene.chgpyrpos(2, 18);
+		scene.setFruitPos(14, 10);
 		scene.init("07");
 	}
 	else if (actualLvl == 7) {
 		scene.chgpyrpos(1, 22);
+		scene.setFruitPos(4, 3);
 		scene.init("08");
 	}
 	else if (actualLvl == 8) {
@@ -118,7 +136,11 @@ void Game::goNextLvl(int actualLvl) {
 	}
 	else if (actualLvl == 10) {
 		scene.chgpyrpos(3, 22);
-		scene.init("10");
+		scene.init("11");
+	}
+	else if (actualLvl == 11) {
+		scene.chgpyrpos(3, 22);
+		scene.init("12");
 	}
 }
 
