@@ -6,7 +6,7 @@
 
 void Game::init()
 {
-	Sound::instance().playMusic("sounds/SongTheme.wav");
+	//Sound::instance().playMusic("sounds/SongTheme.wav");
 	bPlay = true;
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	scene.init("01");

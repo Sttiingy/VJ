@@ -25,7 +25,7 @@ public:
 private:
 	bool bJumping, dashGodMode, bDashing, canDash, death, godMode, bBouncing, bClimbing, win, wallJumpLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
-	int jumpAngle, startY, dashAngle, bounceAngle, actualLvl, bWallJumping;
+	int jumpAngle, startY, dashAngle, bounceAngle, actualLvl, bWallJumping, bFalling;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
