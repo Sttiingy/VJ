@@ -30,10 +30,13 @@ void Game::keyPressed(int key)
 		bPlay = false;
 	if (key == 49) {
 		scene.chgpyrpos(1, 20);
+		scene.setFruitPos(31, 14);
+		scene.setWalkPos(10, 10);
 		scene.init("01");
 	}
 	if (key == 50) {
 		scene.chgpyrpos(1, 22);
+		scene.setFruitPos(3, 9);
 		scene.init("02");
 	}
 	if (key == 51) {
@@ -78,6 +81,7 @@ int Game::getActualLvl() {
 void Game::goNextLvl(int actualLvl) {
 	if (actualLvl == 1) {
 		scene.chgpyrpos(1, 22);
+		scene.setFruitPos(3, 9);
 		scene.init("02");
 	}
 	else if (actualLvl == 2) {

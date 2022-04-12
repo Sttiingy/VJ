@@ -15,12 +15,13 @@ class Player
 
 public:
 	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
-	void keyboard(unsigned char key, int x, int y);
 	void update(int deltaTime);
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
+	int getPlayerX();
+	int getPlayerY();
 	
 private:
 	bool bJumping, dashGodMode, bDashing, canDash, death, godMode, bBouncing, bClimbing, win, wallJumpLeft;

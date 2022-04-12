@@ -89,13 +89,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.2f, 0.4f));
 
 		sprite->setAnimationSpeed(JUMP_UP, 8);
-		sprite->addKeyframe(JUMP_UP, glm::vec2(0.6f, 0.4f));
-
-
-
-
-		
-	sprite->changeAnimation(STAND_RIGHT);
+		sprite->addKeyframe(JUMP_UP, glm::vec2(0.6f, 0.4f));	
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));	
 }
@@ -403,4 +397,12 @@ void Player::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+}
+
+int Player::getPlayerX() {
+	return (posPlayer.x)  / 16;
+}
+
+int Player::getPlayerY() {
+	return (posPlayer.y) / 16;
 }

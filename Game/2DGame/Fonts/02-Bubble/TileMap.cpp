@@ -154,7 +154,6 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size, bool &death, bool &godMode) const
 {
 	int x, y0, y1;
-	
 	x = pos.x / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;

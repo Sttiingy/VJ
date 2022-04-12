@@ -13,6 +13,13 @@
 int INIT_PLAYER_X_TILES = 1;
 int INIT_PLAYER_Y_TILES = 20;
 
+int INIT_FRUIT_X_TILES = 31;
+int INIT_FRUIT_Y_TILES = 14;
+
+int INIT_WALK_X_TILES = 0;
+int INIT_WALK_Y_TILES = 0;
+
+
 int currentLvl;
 
 
@@ -20,6 +27,8 @@ Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
+	fruit = NULL;
+	walk = NULL;
 }
 
 Scene::~Scene()
@@ -28,6 +37,8 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if (fruit != NULL)
+		delete fruit;
 }
 
 
@@ -46,12 +57,22 @@ void Scene::init(string lvl)
 	player->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+
+	fruit = new Fruit();
+	fruit->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	fruit->setPosition(glm::vec2(INIT_FRUIT_X_TILES * map->getTileSize(), INIT_FRUIT_Y_TILES * map->getTileSize()));
+	fruit->setTileMap(map);
+
+	walk = new Walk();
+	walk->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	walk->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	walk->setTileMap(map);
+
 }
 
 void Scene::render()
 {
 	glm::mat4 modelview;
-
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -60,17 +81,32 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
+	fruit->render();
+	walk->render();
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	fruit->update(deltaTime, player);
+	walk->update(deltaTime, player);
+
 }
 
 void Scene::chgpyrpos(int x, int y) {
 	INIT_PLAYER_X_TILES = x;
 	INIT_PLAYER_Y_TILES = y;
+}
+
+void Scene::setFruitPos(int x, int y) {
+	INIT_FRUIT_X_TILES = x;
+	INIT_FRUIT_Y_TILES = y;
+}
+
+void Scene::setWalkPos(int x, int y) {
+	INIT_WALK_X_TILES = INIT_PLAYER_X_TILES;
+	INIT_WALK_Y_TILES = INIT_PLAYER_X_TILES;
 }
 
 void Scene::initShaders()

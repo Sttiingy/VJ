@@ -6,6 +6,8 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "Fruit.h"
+#include "Walk.h"
 
 
 // Scene contains all the entities of our game.
@@ -26,6 +28,8 @@ public:
 	int getInitialY();
 	int getActualLvl();
 	void chgpyrpos(int x, int y);
+	void setFruitPos(int x, int y);
+	void setWalkPos(int x, int y);
 
 private:
 	void initShaders();
@@ -35,6 +39,8 @@ private:
 private:
 	TileMap *map;
 	Player *player;
+	Fruit *fruit;
+	Walk *walk;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
