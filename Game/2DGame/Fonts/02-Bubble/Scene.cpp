@@ -16,11 +16,14 @@ int INIT_PLAYER_Y_TILES = 20;
 int INIT_FRUIT_X_TILES = 31;
 int INIT_FRUIT_Y_TILES = 14;
 
+int INIT_FLAG_X_TILES = 16;
+int INIT_FLAG_Y_TILES = 12;
+
 int INIT_WALK_X_TILES = 0;
 int INIT_WALK_Y_TILES = 0;
 
 
-int currentLvl;
+string currentLvl;
 
 
 Scene::Scene()
@@ -44,13 +47,22 @@ Scene::~Scene()
 
 void Scene::init(string lvl)
 {
+	currentLvl = lvl;
 	initShaders();
 	map = TileMap::createTileMap("levels/level"+lvl+".txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	currentLvl = atoi(lvl.c_str());
-	player = new Player();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
+	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
+		player = new Player();
+		player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+		player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+		player->setTileMap(map);
+	}
+	if (lvl == "11") {
+		flag = new Flag();
+		flag->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+		flag->setPosition(glm::vec2(INIT_FLAG_X_TILES * map->getTileSize(), INIT_FLAG_Y_TILES * map->getTileSize()));
+		flag->setTileMap(map);
+	}
+
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 
@@ -76,16 +88,26 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	player->render();
-	fruit->render();
+	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
+		player->render();
+	}
+	if (currentLvl != "11" && currentLvl != "Inicio" && currentLvl != "Ins" && currentLvl != "Menu" && currentLvl != "Credits") {
+		fruit->render();
+	}
+	if (currentLvl == "11") flag->render();
 	//walk->render();
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	player->update(deltaTime);
-	fruit->update(deltaTime, player);
+	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
+		player->update(deltaTime);
+		fruit->update(deltaTime, player);
+	}
+	if (currentLvl == "11") {
+		flag->update(deltaTime, player);
+	}
 	//walk->update(deltaTime, player);
 
 }
@@ -98,6 +120,11 @@ void Scene::chgpyrpos(int x, int y) {
 void Scene::setFruitPos(int x, int y) {
 	INIT_FRUIT_X_TILES = x;
 	INIT_FRUIT_Y_TILES = y;
+}
+
+void Scene::setFlagPos(int x, int y) {
+	INIT_FLAG_X_TILES = x;
+	INIT_FLAG_Y_TILES = y;
 }
 
 void Scene::setWalkPos(int x, int y) {
@@ -143,7 +170,7 @@ int Scene::getInitialY() {
 	return INIT_PLAYER_Y_TILES * map->getTileSize();
 }
 
-int Scene::getActualLvl() {
+string Scene::getActualLvl() {
 	return currentLvl;
 }
 

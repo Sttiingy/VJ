@@ -6,10 +6,10 @@
 
 void Game::init()
 {
-	Sound::instance().playMusic("sounds/SongTheme.wav");
 	bPlay = true;
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	scene.init("01");
+	scene.init("Inicio");
+	Sound::instance().playMusic("sounds/MenuTheme.wav");
 }
 
 bool Game::update(int deltaTime)
@@ -30,117 +30,159 @@ void Game::keyPressed(int key)
 		bPlay = false;
 	if (key == 49) {//lvl 1
 		scene.chgpyrpos(2, 20);
-		//scene.setFruitPos(31, 14);
-		scene.init("12");
+		scene.setFruitPos(31, 14);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
+		scene.init("01");
 	}
 	if (key == 50) {//lvl 2
 		scene.chgpyrpos(2, 22);
 		scene.setFruitPos(3, 9);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("02");
 	}
 	if (key == 51) {//lvl 3
 		scene.chgpyrpos(2, 21);
 		scene.setFruitPos(12, 9);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("03");
 	}
 	if (key == 52) {//lvl 4
 		scene.chgpyrpos(3, 18);
 		scene.setFruitPos(6, 5);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("04");
 	}
 	if (key == 53) {//lvl 5
 		scene.chgpyrpos(2, 19);
 		scene.setFruitPos(31, 10);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("05");
 	}
 	if (key == 54) {//lvl 6
 		scene.chgpyrpos(2, 19);
 		scene.setFruitPos(31, 10);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("06");
 	}
 	if (key == 55) {//lvl 7
 		scene.chgpyrpos(2, 18);
 		scene.setFruitPos(14, 10);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("07");
 	}
 	if (key == 56) {//lvl 8
 		scene.chgpyrpos(3, 22);
 		scene.setFruitPos(4, 3);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("08");
 	}
 	if (key == 57) {//lvl 9
 		scene.chgpyrpos(3, 22);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("09");
 	}
 	if (key == 48) {//lvl 10
 		scene.chgpyrpos(3, 22);
+		Sound::instance().playMusic("sounds/SongTheme.wav");
 		scene.init("10");
 	}
 	keys[key] = true;
-	if (Game::instance().getKey('g')) scene.changeGodModeState();
-	if (Game::instance().getKey('d')) scene.changeDashGodModeState();
+	if (Game::instance().getKey('g') && Game::instance().getActualLvl() != "Menu" && Game::instance().getActualLvl() != "Inicio"
+		&& Game::instance().getActualLvl() != "Ins" && Game::instance().getActualLvl() != "Credits") scene.changeGodModeState();
+
+	if (Game::instance().getKey('d') && Game::instance().getActualLvl() != "Menu" && Game::instance().getActualLvl() != "Inicio"
+		&& Game::instance().getActualLvl() != "Ins" && Game::instance().getActualLvl() != "Credits") scene.changeDashGodModeState();
+
+	if (Game::instance().getKey('i') && Game::instance().getActualLvl() == "Menu") {
+		scene.init("Ins");
+		Sound::instance().SelectEffect();
+	}
+	if (Game::instance().getKey('x') && Game::instance().getActualLvl() == "Inicio") {
+		Sound::instance().SelectEffect();
+		scene.init("Menu");
+	}
+	if (Game::instance().getKey('i') && Game::instance().getActualLvl() == "Credits") {
+		Sound::instance().SelectEffect();
+		scene.init("Inicio");
+	}
+	if (Game::instance().getKey('a') && Game::instance().getActualLvl() == "Menu") {
+		scene.init("01");
+		Sound::instance().SelectEffect();
+		Sound::instance().playMusic("sounds/SongTheme.wav");
+	}
+
+	if (Game::instance().getKey('c') && Game::instance().getActualLvl() == "Menu") {
+		Sound::instance().SelectEffect();
+		scene.init("Credits");
+	}
+	if (Game::instance().getKey('b') && Game::instance().getActualLvl() == "Ins") {
+		Sound::instance().SelectEffect();
+		scene.init("Menu");
+	}
+
+	if (Game::instance().getKey('b') && Game::instance().getActualLvl() == "Credits") {
+		Sound::instance().SelectEffect();
+		scene.init("Menu");
+	}
 }
 
-int Game::getActualLvl() {
+string Game::getActualLvl() {
 	return scene.getActualLvl();
 }
 
-void Game::goNextLvl(int actualLvl) {
-	if (actualLvl == 0) {
-		scene.chgpyrpos(2, 20);
-		scene.setFruitPos(31, 14);
-		scene.init("12");
-	}
-	else if (actualLvl == 1) {
+void Game::goNextLvl(string actualLvl) {
+	if (actualLvl == "01") {
 		scene.chgpyrpos(2, 22);
 		scene.setFruitPos(3, 9);
 		scene.init("02");
 	}
-	else if (actualLvl == 2) {
+	else if (actualLvl == "02") {
 		scene.chgpyrpos(2, 21);
 		scene.setFruitPos(12, 9);
 		scene.init("03");
 	}
-	else if (actualLvl == 3) {
+	else if (actualLvl == "03") {
 		scene.chgpyrpos(3, 18);
 		scene.setFruitPos(6, 5);
 		scene.init("04");
 	}
-	else if (actualLvl == 4) {
+	else if (actualLvl == "04") {
 		scene.chgpyrpos(2, 19);
 		scene.setFruitPos(31, 10);
 		scene.init("05");
 	}
-	else if (actualLvl == 5) {
+	else if (actualLvl == "05") {
 		scene.chgpyrpos(2, 19);
 		scene.setFruitPos(31, 10);
 		scene.init("06");
 	}
-	else if (actualLvl == 6) {
+	else if (actualLvl == "06") {
 		scene.chgpyrpos(2, 18);
 		scene.setFruitPos(14, 10);
 		scene.init("07");
 	}
-	else if (actualLvl == 7) {
+	else if (actualLvl == "07") {
 		scene.chgpyrpos(1, 22);
 		scene.setFruitPos(4, 3);
 		scene.init("08");
 	}
-	else if (actualLvl == 8) {
+	else if (actualLvl == "08") {
 		scene.chgpyrpos(3, 22);
 		scene.init("09");
 	}
-	else if (actualLvl == 9) {
+	else if (actualLvl == "09") {
 		scene.chgpyrpos(3, 22);
 		scene.init("10");
 	}
-	else if (actualLvl == 10) {
+	else if (actualLvl == "10") {
 		scene.chgpyrpos(3, 22);
+		scene.setFlagPos(17, 11);
 		scene.init("11");
 	}
-	else if (actualLvl == 11) {
+	else if (actualLvl == "11") {
 		scene.chgpyrpos(3, 22);
-		scene.init("12");
+		Sound::instance().playMusic("sounds/CreditsTheme.wav");
+		scene.init("Credits");
 	}
 }
 

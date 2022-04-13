@@ -71,8 +71,8 @@ void Fruit::update(int deltaTime, Player *player) {
 	if (posFruit.x / 16 == player->getPlayerX() && posFruit.y / 16 == player->getPlayerY() - 1) {
 		if (sprite->animation() == STAND && sprite->animation() != PLAYER_GETS) sprite->changeAnimation(PLAYER_GETS);
 	}
-
 	if(sprite->animation() == PLAYER_GETS) ++anime_count;
+	if(anime_count == 1) Sound::instance().BeerEffect();
 	if (anime_count == 32) {
 		sprite->changeAnimation(DISAPPEAR);
 		anime_count = 0;

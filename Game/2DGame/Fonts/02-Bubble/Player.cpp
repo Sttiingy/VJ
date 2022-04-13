@@ -395,6 +395,10 @@ void Player::render() {
 	sprite->render();
 }
 
+void Player::GameOver() {
+	Game::instance().goNextLvl(Game::instance().getActualLvl());
+}
+
 void Player::setTileMap(TileMap *tileMap)
 {
 	map = tileMap;

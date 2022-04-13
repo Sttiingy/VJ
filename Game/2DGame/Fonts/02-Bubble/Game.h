@@ -32,7 +32,8 @@ public:
 	
 	// Input callback methods
 	void keyPressed(int key);
-	int getActualLvl();
+	string getActualLvl();
+	void goNextLvl(string actualLvl);
 	int getActualLvl(int actualLvl);
 	void goNextLvl(int actualLvl);
 	int getInitialX();

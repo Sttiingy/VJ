@@ -45,6 +45,18 @@ void Sound::jumpEffect()
 	effect->setVolume(0.15f);
 }
 
+void Sound::GameOverEffect()
+{
+	effect = engineEffects->play2D("sounds/GameOverFX.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+
+void Sound::SelectEffect()
+{
+	effect = engineEffects->play2D("sounds/SelectFX.wav", false, false, true);
+	effect->setVolume(0.15f);
+}
+
 void Sound::dashEffect()
 {
 	effect = engineEffects->play2D("sounds/DashFX.wav", false, false, true);
@@ -80,4 +92,10 @@ void Sound::WinEffect() {
 	effect = engineEffects->play2D("sounds/Win.wav", false, false, true);
 	effect->setVolume(0.15f);
 }
+
+void Sound::BeerEffect() {
+	effect = engineEffects->play2D("sounds/getBeer.wav", false, false, true);
+	effect->setVolume(0.35f);
+}
+
 
