@@ -19,8 +19,11 @@ int INIT_FRUIT_Y_TILES = 14;
 int INIT_FLAG_X_TILES = 16;
 int INIT_FLAG_Y_TILES = 12;
 
-int INIT_WALK_X_TILES = 0;
-int INIT_WALK_Y_TILES = 0;
+int INIT_GLOBO_X_TILES = 0;
+int INIT_GLOBO_Y_TILES = 0;
+
+int INIT_GLOBO2_X_TILES = 0;
+int INIT_GLOBO2_Y_TILES = 0;
 
 
 string currentLvl;
@@ -71,6 +74,16 @@ void Scene::init(string lvl)
 	fruit->setPosition(glm::vec2(INIT_FRUIT_X_TILES * map->getTileSize(), INIT_FRUIT_Y_TILES * map->getTileSize()));
 	fruit->setTileMap(map);
 
+	globo = new Globo();
+	globo->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	globo->setPosition(glm::vec2(INIT_GLOBO_X_TILES * map->getTileSize(), INIT_GLOBO_Y_TILES * map->getTileSize()));
+	globo->setTileMap(map);
+
+	globo2 = new Globo();
+	globo2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	globo2->setPosition(glm::vec2(INIT_GLOBO2_X_TILES * map->getTileSize(), INIT_GLOBO2_Y_TILES * map->getTileSize()));
+	globo2->setTileMap(map);
+
 	//walk = new Walk();
 	//walk->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	//walk->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -95,6 +108,10 @@ void Scene::render()
 		fruit->render();
 	}
 	if (currentLvl == "11") flag->render();
+	if (currentLvl == "08" || currentLvl == "09" || currentLvl == "10") {
+		globo->render();
+		globo2->render();
+	}
 	//walk->render();
 }
 
@@ -104,6 +121,10 @@ void Scene::update(int deltaTime)
 	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
 		player->update(deltaTime);
 		fruit->update(deltaTime, player);
+		if (currentLvl == "08" || currentLvl == "09" || currentLvl == "10") {
+			globo->update(deltaTime, player);
+			globo2->update(deltaTime, player);
+		}
 	}
 	if (currentLvl == "11") {
 		flag->update(deltaTime, player);
@@ -127,10 +148,22 @@ void Scene::setFlagPos(int x, int y) {
 	INIT_FLAG_Y_TILES = y;
 }
 
+void Scene::setGloboPos(int x, int y) {
+	INIT_GLOBO_X_TILES = x;
+	INIT_GLOBO_Y_TILES = y;
+}
+
+void Scene::setGlobo2Pos(int x, int y) {
+	INIT_GLOBO2_X_TILES = x;
+	INIT_GLOBO2_Y_TILES = y;
+}
+
+/*
 void Scene::setWalkPos(int x, int y) {
 	INIT_WALK_X_TILES = INIT_PLAYER_X_TILES;
 	INIT_WALK_Y_TILES = INIT_PLAYER_X_TILES;
 }
+*/
 
 void Scene::initShaders()
 {

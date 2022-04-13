@@ -19,7 +19,7 @@ int anime_count_win = 0;
 
 void Flag::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	spritesheet.loadFromFile("images/Flag.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(0.25f, 1.f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(16, 32), glm::vec2(0.25f, 1.f), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(2);
 
 	sprite->setAnimationSpeed(STAND, 8);

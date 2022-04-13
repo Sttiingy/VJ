@@ -15,6 +15,7 @@
     <ClInclude Include="Flag.h" />
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Globo.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Globo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />

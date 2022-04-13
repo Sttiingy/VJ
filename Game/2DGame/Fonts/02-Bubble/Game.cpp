@@ -79,6 +79,8 @@ void Game::keyPressed(int key)
 	if (key == 57) {//lvl 9
 		scene.chgpyrpos(3, 22);
 		Sound::instance().playMusic("sounds/SongTheme.wav");
+		scene.setGloboPos(5, 10);
+		scene.setGlobo2Pos(21, 6);
 		scene.init("09");
 	}
 	if (key == 48) {//lvl 10
@@ -104,6 +106,7 @@ void Game::keyPressed(int key)
 	if (Game::instance().getKey('i') && Game::instance().getActualLvl() == "Credits") {
 		Sound::instance().SelectEffect();
 		scene.init("Inicio");
+		Sound::instance().playMusic("sounds/MenuTheme.wav");
 	}
 	if (Game::instance().getKey('a') && Game::instance().getActualLvl() == "Menu") {
 		scene.init("01");
@@ -168,6 +171,8 @@ void Game::goNextLvl(string actualLvl) {
 	}
 	else if (actualLvl == "08") {
 		scene.chgpyrpos(3, 22);
+		scene.setGloboPos(5, 10);
+		scene.setGlobo2Pos(21, 6);
 		scene.init("09");
 	}
 	else if (actualLvl == "09") {
@@ -176,7 +181,7 @@ void Game::goNextLvl(string actualLvl) {
 	}
 	else if (actualLvl == "10") {
 		scene.chgpyrpos(3, 22);
-		scene.setFlagPos(17, 11);
+		scene.setFlagPos(17, 10);
 		scene.init("11");
 	}
 	else if (actualLvl == "11") {

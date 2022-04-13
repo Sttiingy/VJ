@@ -418,10 +418,18 @@ int Player::getPlayerY() {
 	return (posPlayer.y) / 16;
 }
 
+bool Player::isDead() {
+	return death;
+}
+
 void Player::changeGodMode() {
 	godMode = !godMode;
 }
 
 void Player::changeDashGodMode() {
 	dashGodMode = !dashGodMode;
+}
+
+void Player::setCanDashTrue() {
+	canDash = true;
 }

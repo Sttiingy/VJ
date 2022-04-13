@@ -18,7 +18,7 @@ enum FruitAnims
 int anime_count = 0;
 
 void Fruit::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	spritesheet.loadFromFile("images/Assets.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spritesheet.loadFromFile("images/Beer.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(0.25f, 0.25f), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(3);
 

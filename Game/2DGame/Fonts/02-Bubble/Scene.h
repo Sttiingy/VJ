@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Fruit.h"
 #include "Flag.h"
+#include "Globo.h"
 //#include "Walk.h"
 
 
@@ -33,7 +34,9 @@ public:
 	void chgpyrpos(int x, int y);
 	void setFruitPos(int x, int y);
 	void setFlagPos(int x, int y);
-	void setWalkPos(int x, int y);
+	void setGloboPos(int x, int y);
+	void setGlobo2Pos(int x, int y);
+	//void setWalkPos(int x, int y);
 
 private:
 	void initShaders();
@@ -45,6 +48,8 @@ private:
 	Player *player;
 	Fruit *fruit;
 	Flag *flag;
+	Globo *globo;
+	Globo *globo2;
 	//Walk *walk;
 	ShaderProgram texProgram;
 	float currentTime;
