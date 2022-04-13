@@ -79,6 +79,36 @@ void Sound::DeathEffect() {
 	effect->setVolume(0.35f);
 }
 
+void Sound::BaloonEffect() {
+	effect = engineEffects->play2D("sounds/BaloonFX.wav", false, false, true);
+	effect->setVolume(0.35f);
+}
+
+void Sound::godModeOn() {
+	effect = engineEffects->play2D("sounds/GodModeOnFX.wav", false, false, true);
+	effect->setVolume(0.75f);
+}
+
+void Sound::godModeOff() {
+	effect = engineEffects->play2D("sounds/GodModeOffFX.wav", false, false, true);
+	effect->setVolume(0.75f);
+}
+
+void Sound::dashGodModeOff() {
+	effect = engineEffects->play2D("sounds/DashGodOff.wav", false, false, true);
+	effect->setVolume(0.75f);
+}
+
+void Sound::dashGodModeOn() {
+	effect = engineEffects->play2D("sounds/DashGodOn.wav", false, false, true);
+	effect->setVolume(0.75f);
+}
+
+void Sound::FlowerEffect() {
+	effect = engineEffects->play2D("sounds/FlowerFX.wav", false, false, true);
+	effect->setVolume(0.75f);
+}
+
 void Sound::init() {
 	engineMusic = createIrrKlangDevice();
 	engineEffects = createIrrKlangDevice();

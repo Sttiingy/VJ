@@ -20,6 +20,12 @@ public:
 	void back2LifeEffect();
 	void BoingEffect();
 	void DeathEffect();
+	void BaloonEffect();
+	void godModeOn();
+	void godModeOff();
+	void dashGodModeOff();
+	void dashGodModeOn();
+	void FlowerEffect();
 	void stopEffect();
 	void WinEffect();
 	void BeerEffect();

@@ -4,9 +4,6 @@
 #include "Scene.h"
 #include "Game.h"
 
-
-
-
 #define SCREEN_X 36
 #define SCREEN_Y 28
 
@@ -16,25 +13,22 @@ int INIT_PLAYER_Y_TILES = 20;
 int INIT_FRUIT_X_TILES = 31;
 int INIT_FRUIT_Y_TILES = 14;
 
-int INIT_FLAG_X_TILES = 16;
-int INIT_FLAG_Y_TILES = 12;
+int INIT_FLAG_X_TILES = 17;
+int INIT_FLAG_Y_TILES = 10;
 
 int INIT_GLOBO_X_TILES = 0;
 int INIT_GLOBO_Y_TILES = 0;
 
-int INIT_GLOBO2_X_TILES = 0;
-int INIT_GLOBO2_Y_TILES = 0;
-
+int INIT_FLOWER_Y_TILES = 0;
+int INIT_FLOWER_X_TILES = 0;
 
 string currentLvl;
-
 
 Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
 	fruit = NULL;
-	//walk = NULL;
 }
 
 Scene::~Scene()
@@ -74,21 +68,15 @@ void Scene::init(string lvl)
 	fruit->setPosition(glm::vec2(INIT_FRUIT_X_TILES * map->getTileSize(), INIT_FRUIT_Y_TILES * map->getTileSize()));
 	fruit->setTileMap(map);
 
+	flower = new Flower();
+	flower->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	flower->setPosition(glm::vec2(INIT_FLOWER_X_TILES * map->getTileSize(), INIT_FLOWER_Y_TILES * map->getTileSize()));
+	flower->setTileMap(map);
+
 	globo = new Globo();
 	globo->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	globo->setPosition(glm::vec2(INIT_GLOBO_X_TILES * map->getTileSize(), INIT_GLOBO_Y_TILES * map->getTileSize()));
 	globo->setTileMap(map);
-
-	globo2 = new Globo();
-	globo2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	globo2->setPosition(glm::vec2(INIT_GLOBO2_X_TILES * map->getTileSize(), INIT_GLOBO2_Y_TILES * map->getTileSize()));
-	globo2->setTileMap(map);
-
-	//walk = new Walk();
-	//walk->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	//walk->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	//walk->setTileMap(map);
-
 }
 
 void Scene::render()
@@ -101,18 +89,20 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
+	if (currentLvl != "11" && currentLvl != "Inicio" && currentLvl != "Ins" && currentLvl != "Menu" && currentLvl != "Credits") {
+		fruit->render();
+		flower->render();
+	}
+	if (currentLvl == "11") {
+		flag->render();
+		flower->render();
+	}
+	if (currentLvl == "08" || currentLvl == "09" || currentLvl == "10") {
+		globo->render();
+	}
 	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
 		player->render();
 	}
-	if (currentLvl != "11" && currentLvl != "Inicio" && currentLvl != "Ins" && currentLvl != "Menu" && currentLvl != "Credits") {
-		fruit->render();
-	}
-	if (currentLvl == "11") flag->render();
-	if (currentLvl == "08" || currentLvl == "09" || currentLvl == "10") {
-		globo->render();
-		globo2->render();
-	}
-	//walk->render();
 }
 
 void Scene::update(int deltaTime)
@@ -121,15 +111,14 @@ void Scene::update(int deltaTime)
 	if (currentLvl != "Menu" && currentLvl != "Inicio" && currentLvl != "Credits"  && currentLvl != "Ins") {
 		player->update(deltaTime);
 		fruit->update(deltaTime, player);
+		flower->update(deltaTime, player);
 		if (currentLvl == "08" || currentLvl == "09" || currentLvl == "10") {
 			globo->update(deltaTime, player);
-			globo2->update(deltaTime, player);
 		}
 	}
 	if (currentLvl == "11") {
 		flag->update(deltaTime, player);
 	}
-	//walk->update(deltaTime, player);
 
 }
 
@@ -143,6 +132,12 @@ void Scene::setFruitPos(int x, int y) {
 	INIT_FRUIT_Y_TILES = y;
 }
 
+void Scene::setFlowerPos(int x, int y) {
+	INIT_FLOWER_X_TILES = x;
+	INIT_FLOWER_Y_TILES = y;
+}
+
+
 void Scene::setFlagPos(int x, int y) {
 	INIT_FLAG_X_TILES = x;
 	INIT_FLAG_Y_TILES = y;
@@ -152,18 +147,6 @@ void Scene::setGloboPos(int x, int y) {
 	INIT_GLOBO_X_TILES = x;
 	INIT_GLOBO_Y_TILES = y;
 }
-
-void Scene::setGlobo2Pos(int x, int y) {
-	INIT_GLOBO2_X_TILES = x;
-	INIT_GLOBO2_Y_TILES = y;
-}
-
-/*
-void Scene::setWalkPos(int x, int y) {
-	INIT_WALK_X_TILES = INIT_PLAYER_X_TILES;
-	INIT_WALK_Y_TILES = INIT_PLAYER_X_TILES;
-}
-*/
 
 void Scene::initShaders()
 {

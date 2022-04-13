@@ -70,7 +70,7 @@ void Globo::update(int deltaTime, Player *player) {
 	}
 	if (sprite->animation() == PLAYER_GETS) ++anime_count_globo;
 	if (anime_count_globo == 1) {
-		Sound::instance().BeerEffect();
+		Sound::instance().BaloonEffect();
 		player->setCanDashTrue();
 	}
 	if (player->isDead()) {

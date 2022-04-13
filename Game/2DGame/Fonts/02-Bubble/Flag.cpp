@@ -65,7 +65,7 @@ void Flag::update(int deltaTime, Player *player) {
 		if (sprite->animation() != WIN) sprite->changeAnimation(WIN);
 	}
 	if (sprite->animation() == WIN) anime_count_win++;
-	if (anime_count_win == 1) Sound::instance().GameOverEffect();;
+	if (anime_count_win == 1) Sound::instance().GameOverEffect();
 	if (anime_count_win == 350) {
 		player->GameOver();
 	}

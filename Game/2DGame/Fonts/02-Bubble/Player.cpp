@@ -423,10 +423,14 @@ bool Player::isDead() {
 }
 
 void Player::changeGodMode() {
+	if(!godMode) Sound::instance().godModeOn();
+	else Sound::instance().godModeOff();
 	godMode = !godMode;
 }
 
 void Player::changeDashGodMode() {
+	if (!dashGodMode) Sound::instance().dashGodModeOn();
+	else Sound::instance().dashGodModeOff();
 	dashGodMode = !dashGodMode;
 }
 

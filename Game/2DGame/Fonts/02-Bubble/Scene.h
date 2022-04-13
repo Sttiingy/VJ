@@ -9,7 +9,7 @@
 #include "Fruit.h"
 #include "Flag.h"
 #include "Globo.h"
-//#include "Walk.h"
+#include "Flower.h"
 
 
 // Scene contains all the entities of our game.
@@ -33,6 +33,7 @@ public:
 	void changeDashGodModeState();
 	void chgpyrpos(int x, int y);
 	void setFruitPos(int x, int y);
+	void setFlowerPos(int x, int y);
 	void setFlagPos(int x, int y);
 	void setGloboPos(int x, int y);
 	void setGlobo2Pos(int x, int y);
@@ -49,8 +50,7 @@ private:
 	Fruit *fruit;
 	Flag *flag;
 	Globo *globo;
-	Globo *globo2;
-	//Walk *walk;
+	Flower *flower;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
